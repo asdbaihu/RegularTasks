@@ -74,7 +74,7 @@ public class BashScriptController {
     }
 
     private Timestamp defineNextExecution(String frequency) {
-        System.out.println(frequency);
+
         long timeValue = 0;
         switch (frequency){
             case "1 minute": timeValue = 60000;
