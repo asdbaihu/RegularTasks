@@ -12,11 +12,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 
 @Component
 public class BashScriptController {
-/*    public BashScriptController(){
+    public BashScriptController(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -24,7 +25,7 @@ public class BashScriptController {
             }
         }).start();
 
-    }*/
+    }
 
     @Autowired
     private BashRepository bashRepository;
@@ -67,15 +68,48 @@ public class BashScriptController {
     private void saveNewNextExecution(Bashscript bashscript){
         Bashscript newBashScrip = new Bashscript();
         newBashScrip = bashscript;
-        newBashScrip.setNextexecution(new Timestamp(System.currentTimeMillis()+ shouldConvertTimeBecauseJavaCannotByDepricatedWay(bashscript.getFrequency())));
+        newBashScrip.setNextexecution(defineNextExecution(bashscript.getFrequency()));
         bashRepository.delete(bashscript.getId());
         bashRepository.save(newBashScrip);
     }
 
-    private long shouldConvertTimeBecauseJavaCannotByDepricatedWay(Time time){
-        long timeValue;
-        timeValue = time.getHours()* 3600000 + time.getMinutes() * 60000 + time.getSeconds() * 1000;
-        return timeValue;
+    private Timestamp defineNextExecution(String frequency) {
+        System.out.println(frequency);
+        long timeValue = 0;
+        switch (frequency){
+            case "1 minute": timeValue = 60000;
+            break;
+            case "10 minutes": timeValue = 600000;
+            break;
+            case "1 hour": timeValue = 3600000;
+            break;
+            case "6 hours": timeValue = 6 * 3600000;
+            break;
+            case "1 day": timeValue = 24 * 3600000;
+            break;
+            case "1 week": timeValue = 7 * 24 * 3600000;
+            break;
+        }
+
+        if (timeValue != 0){
+            return new Timestamp(System.currentTimeMillis()+timeValue);
+        }
+
+        Calendar cal = Calendar.getInstance();
+
+        if (frequency.equals("1 month")) {
+            cal.add(Calendar.MONTH, 1);
+            return new Timestamp(cal.getTimeInMillis());
+        } else if (frequency.equals("6 months")){
+            cal.add(Calendar.MONTH, 6);
+            return new Timestamp(cal.getTimeInMillis());
+        } else if (frequency.equals("1 year")) {
+            cal.add(Calendar.YEAR, 1);
+            return new Timestamp(cal.getTimeInMillis());
+        } else {
+            throw new IllegalArgumentException();
+        }
+
     }
 
 
@@ -102,7 +136,7 @@ public class BashScriptController {
             Process process = builder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
-            /*while ((line=reader.readLine()) != null){
+          /*  while ((line=reader.readLine()) != null){
                 System.out.println(line);
             }*/
         } catch (IOException e) {
