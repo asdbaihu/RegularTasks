@@ -42,6 +42,7 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
              },0)
              document.getElementById("task").innerHTML = task;
              document.getElementById("header").innerHTML = content;
+             document.getElementById("taskLabel").innerHTML = task;
              console.log(self.bashscripts);
 
     }
