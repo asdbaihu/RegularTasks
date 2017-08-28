@@ -189,7 +189,7 @@ public class SendEmailController {
 
     }
 
-    private void sendEmail(Sendemail sendEmail) {
+    private synchronized void sendEmail(Sendemail sendEmail) {
         // SMTP info
         String host = "smtp.gmail.com";
         String port = "587";

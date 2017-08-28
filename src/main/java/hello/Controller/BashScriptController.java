@@ -121,7 +121,7 @@ public class BashScriptController {
     }
 
 
-    private void executeCmdCommand(Bashscript bashscript, boolean multipleTimes) {
+    private synchronized void executeCmdCommand(Bashscript bashscript, boolean multipleTimes) {
         String command = bashscript.getScript();
         String commandForCmd = "";
         String[] commands = command.split(";");

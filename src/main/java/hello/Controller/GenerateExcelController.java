@@ -109,7 +109,7 @@ public class GenerateExcelController {
 
     }
 
-    private void generateExcelFile(Generateexel generateexel) {
+    private synchronized void generateExcelFile(Generateexel generateexel) {
 
         final String EXCEL_FILE_LOCATION = generateexel.getScript() + "\\AntonsTask.xls";
 
