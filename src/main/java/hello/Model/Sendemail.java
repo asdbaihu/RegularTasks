@@ -17,7 +17,7 @@ public class Sendemail {
 
     private Timestamp timedate;
 
-    private Time frequency;
+    private String frequency;
 
     private Timestamp nextexecution;
 
@@ -53,11 +53,11 @@ public class Sendemail {
         this.timedate = timedate;
     }
 
-    public Time getFrequency() {
+    public String getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(Time frequency) {
+    public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
 }

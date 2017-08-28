@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import jxl.Workbook;
 import jxl.format.*;
@@ -19,7 +20,6 @@ import jxl.write.Number;
 @Component
 public class GenerateExcelController {
 
-/*
     public GenerateExcelController(){
         new Thread(new Runnable() {
             @Override
@@ -28,7 +28,6 @@ public class GenerateExcelController {
             }
         }).start();
     }
-*/
 
     @Autowired
     GenerateExelRepository generateExelRepository;
@@ -66,15 +65,48 @@ public class GenerateExcelController {
     private void saveNewNextExecution(Generateexel generateexel) {
         Generateexel generateexelNew = new Generateexel();
         generateexelNew = generateexel;
-        generateexelNew.setNextexecution(new Timestamp(System.currentTimeMillis() + shouldConvertTimeBecauseJavaCannotByDepricatedWay(generateexel.getFrequency())));
+        generateexelNew.setNextexecution(defineNextExecution(generateexel.getFrequency()));
         generateExelRepository.delete(generateexel.getId());
         generateExelRepository.save(generateexelNew);
     }
 
-    private long shouldConvertTimeBecauseJavaCannotByDepricatedWay(Time time) {
-        long timeValue;
-        timeValue = time.getHours() * 3600000 + time.getMinutes() * 60000 + time.getSeconds() * 1000;
-        return timeValue;
+    private Timestamp defineNextExecution(String frequency) {
+        System.out.println(frequency);
+        long timeValue = 0;
+        switch (frequency){
+            case "1 minute": timeValue = 60000;
+                break;
+            case "10 minutes": timeValue = 600000;
+                break;
+            case "1 hour": timeValue = 3600000;
+                break;
+            case "6 hours": timeValue = 6 * 3600000;
+                break;
+            case "1 day": timeValue = 24 * 3600000;
+                break;
+            case "1 week": timeValue = 7 * 24 * 3600000;
+                break;
+        }
+
+        if (timeValue != 0){
+            return new Timestamp(System.currentTimeMillis()+timeValue);
+        }
+
+        Calendar cal = Calendar.getInstance();
+
+        if (frequency.equals("1 month")) {
+            cal.add(Calendar.MONTH, 1);
+            return new Timestamp(cal.getTimeInMillis());
+        } else if (frequency.equals("6 months")){
+            cal.add(Calendar.MONTH, 6);
+            return new Timestamp(cal.getTimeInMillis());
+        } else if (frequency.equals("1 year")) {
+            cal.add(Calendar.YEAR, 1);
+            return new Timestamp(cal.getTimeInMillis());
+        } else {
+            throw new IllegalArgumentException("wrong interval");
+        }
+
     }
 
     private void generateExcelFile(Generateexel generateexel) {
@@ -117,6 +149,7 @@ public class GenerateExcelController {
 
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Wrong directory");
         } catch (WriteException e) {
             e.printStackTrace();
         } finally {

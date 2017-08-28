@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
@@ -28,14 +29,14 @@ import javax.mail.internet.MimeMultipart;
 @Component
 public class SendEmailController {
 
-   /* public SendEmailController(){
+    public SendEmailController() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 findAll();
             }
         }).start();
-    }*/
+    }
 
     @Autowired
     EmailRepository emailRepository;
@@ -76,20 +77,60 @@ public class SendEmailController {
     private void saveNewNextExecution(Sendemail sendEmail) {
         Sendemail sendEmailNew = new Sendemail();
         sendEmailNew = sendEmail;
-        sendEmailNew.setNextexecution(new Timestamp(System.currentTimeMillis() + shouldConvertTimeBecauseJavaCannotByDepricatedWay(sendEmail.getFrequency())));
+        sendEmailNew.setNextexecution(defineNextExecution(sendEmail.getFrequency()));
         emailRepository.delete(sendEmail.getId());
         emailRepository.save(sendEmailNew);
     }
 
-    private long shouldConvertTimeBecauseJavaCannotByDepricatedWay(Time time) {
-        long timeValue;
-        timeValue = time.getHours() * 3600000 + time.getMinutes() * 60000 + time.getSeconds() * 1000;
-        return timeValue;
+
+    private Timestamp defineNextExecution(String frequency) {
+        long timeValue = 0;
+        switch (frequency) {
+            case "1 minute":
+                timeValue = 60000;
+                break;
+            case "10 minutes":
+                timeValue = 600000;
+                break;
+            case "1 hour":
+                timeValue = 3600000;
+                break;
+            case "6 hours":
+                timeValue = 6 * 3600000;
+                break;
+            case "1 day":
+                timeValue = 24 * 3600000;
+                break;
+            case "1 week":
+                timeValue = 7 * 24 * 3600000;
+                break;
+        }
+
+        if (timeValue != 0) {
+            return new Timestamp(System.currentTimeMillis() + timeValue);
+        }
+
+        Calendar cal = Calendar.getInstance();
+
+        if (frequency.equals("1 month")) {
+            cal.add(Calendar.MONTH, 1);
+            return new Timestamp(cal.getTimeInMillis());
+        } else if (frequency.equals("6 months")) {
+            cal.add(Calendar.MONTH, 6);
+            return new Timestamp(cal.getTimeInMillis());
+        } else if (frequency.equals("1 year")) {
+            cal.add(Calendar.YEAR, 1);
+            return new Timestamp(cal.getTimeInMillis());
+        } else {
+            throw new IllegalArgumentException();
+        }
+
     }
 
+
     private void sendEmailWithAttachments(String host, String port,
-                                                final String userName, final String password, String toAddress,
-                                                String subject, String message, String[] attachFiles)
+                                          final String userName, final String password, String toAddress,
+                                          String subject, String message, String[] attachFiles)
             throws AddressException, MessagingException {
         // sets SMTP server properties
         Properties properties = new Properties();
@@ -112,7 +153,7 @@ public class SendEmailController {
         Message msg = new MimeMessage(session);
 
         msg.setFrom(new InternetAddress(userName));
-        InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
+        InternetAddress[] toAddresses = {new InternetAddress(toAddress)};
         msg.setRecipients(Message.RecipientType.TO, toAddresses);
         msg.setSubject(subject);
         msg.setSentDate(new Date());
@@ -148,7 +189,7 @@ public class SendEmailController {
 
     }
 
-    private void sendEmail(Sendemail sendEmail){
+    private void sendEmail(Sendemail sendEmail) {
         // SMTP info
         String host = "smtp.gmail.com";
         String port = "587";
@@ -175,6 +216,5 @@ public class SendEmailController {
             ex.printStackTrace();
         }
     }
-
 
 }
