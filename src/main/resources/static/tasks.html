@@ -1,0 +1,236 @@
+<!--<a href="/demo/user?email=someemail@someemailprovider.com">Show cars</a>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Anton's task</title>
+    <style>
+      .username.ng-valid {
+          background-color: lightgreen;
+      }
+      .username.ng-dirty.ng-invalid-required {
+          background-color: red;
+      }
+      .username.ng-dirty.ng-invalid-minlength {
+          background-color: yellow;
+      }
+
+      .email.ng-valid {
+          background-color: lightgreen;
+      }
+      .email.ng-dirty.ng-invalid-required {
+          background-color: red;
+      }
+      .email.ng-dirty.ng-invalid-email {
+          background-color: yellow;
+      }
+
+      body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+    </style>
+
+
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/app.css" />
+
+
+
+
+</head>
+<body ng-app="infocomApp" class="ng-cloak" ng-controller="BashController as ctrl">
+
+<!-- Navbar -->
+<div class="w3-top">
+    <div class="w3-bar w3-red w3-card-2 w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red"
+           href="javascript:void(0);" onclick="myFunction()"
+           title="Toggle Navigation Menu">
+            <i class="fa fa-bars"></i></a>
+        <a href="/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
+        <a href="tasks.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Existing Tasks</a>
+        <a href="settings.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Settings</a>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+        <a href="tasks.html" class="w3-bar-item w3-button w3-padding-large">Existing Tasks</a>
+        <a href="settings.html" class="w3-bar-item w3-button w3-padding-large">Settings</a>
+    </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left"
+     style="z-index:3;width:250px;margin-top:60px;" id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()"
+       class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+        <i class="fa fa-remove"></i>
+    </a>
+    <h4 class="w3-bar-item"><b>Tasks</b></h4>
+    <a class="w3-bar-item w3-button w3-hover-black" href="#" ng-click="ctrl.useTask(0, 'Bash-script', 'Available Bash-scripts for execution')">Bash-script</a>
+
+    <a class="w3-bar-item w3-button w3-hover-black" href="#"  ng-click="ctrl.useTask(1, 'Directory', 'Available tasks fo generation Exel file')">Generate Exel file</a>
+
+    <a class="w3-bar-item w3-button w3-hover-black" href="#" ng-click="ctrl.useTask(2, 'Email address', 'Addresses for sending emails')">Send Exel file by mail</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu"
+     id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+
+
+    <div class="w3-row w3-padding-64">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal" id = "header" >Available Bash-scripts for execution</h1>
+        </div>
+    </div>
+
+
+
+    <div class="generic-container" >
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="lead">Task Registration Form </span></div>
+        <div class="formcontainer">
+            <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
+                <input type="hidden" ng-model="ctrl.bash.id" />
+                <input type="hidden" ng-model="ctrl.bash.nextexecution" ng-init="ctrl.bash.nextexecution = ctrl.bash.timedate"/>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="uname">Bash-script</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.bash.script" id="uname" class="username form-control input-sm" placeholder="Enter your Bash-script" required="true" ng-minlength="3"/>
+                            <div class="has-error" ng-show="myForm.$dirty">
+                                <span ng-show="myForm.uname.$error.required">This is a required field</span>
+                                <span ng-show="myForm.uname.$error.minlength">Minimum length required is 3</span>
+                                <span ng-show="myForm.uname.$invalid">This field is invalid </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-2 control-lable" for="timedate">Date of first execution</label>
+                    <div class="col-md-7">
+                        <p class="input-group">
+                    <input type="text" id="timedate" class="form-control" placeholder="Enter date of first execution."
+                               uib-datepicker-popup="dd MMMM, yyyy HH:mm:ss"
+                               ng-model="ctrl.bash.timedate" required="true" is-open="opened"/>
+                        <span class="input-group-btn">
+                    <button type="button" class="btn btn-default"
+                            ng-click="opened = !opened">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                        </span>
+                        </p>
+                </div>
+                </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="singleSelect">Frequency of executions, time</label>
+                        <div class="col-md-7">
+                            <select name="singleSelect" id="singleSelect" ng-model="ctrl.bash.frequency">
+                                <option value="">---Please select---</option> <!-- not selected / blank option -->
+                                <option value="1 minute">1 minute</option> <!-- interpolation -->
+                                <option value="10 minutes">10 minutes</option>
+                                <option value="30 minutes">30 minutes</option>
+                                <option value="1 hour">1 hour</option>
+                                <option value="6 hours">6 hours</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+             <!--   <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="time">Frequency of executions, time</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.bash.frequency " id="time"
+                                   class="form-control input-sm"  />
+                            <div class="has-error" ng-show="myForm.$dirty">
+                                <span class="error" ng-show="myForm.input.$error.time">Not a valid date!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="row">
+                    <div class="form-actions floatRight">
+                        <input type="submit"  value="{{!ctrl.bash.id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid"/>
+                        <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset Form</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        <form name="myFormTable" >
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading"><span class="lead">List of Tasks </span></div>
+                <div class="tablecontainer">
+                    <table class="table table-hover" id="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th id="task">Bash-script</th>
+                            <th>Time of firste execution</th>
+                            <th>Frequency of the next executions</th>
+                            <th width="20%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="u in ctrl.bashscripts">
+                            <td>{{u.id}}</td>
+                            <td><span ng-bind="u.script"></span></td>
+                            <td><span ng-bind="u.timedate | date: 'yyyy-MM-dd HH:mm:ss'"></span></td>
+                            <td><span ng-bind="u.frequency"></span></td>
+                            <td>
+                                <button type="button" ng-click="ctrl.edit(u.id)" class="btn btn-success custom-width">Edit</button>  <button type="button" ng-click="ctrl.remove(u.id)" class="btn btn-danger custom-width">Remove</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+
+</div>
+</div>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+
+
+<script src="app.js"></script>
+<script src="bash_service.js"></script>
+<script src="bash_controller.js"></script>
+
+
+
+</body>
+</html>
+

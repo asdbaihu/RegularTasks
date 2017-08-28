@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springInfocom.iml" filepath="$PROJECT_DIR$/.idea/modules/springInfocom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springInfocom_main.iml" filepath="$PROJECT_DIR$/.idea/modules/springInfocom_main.iml" group="springInfocom" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springInfocom_test.iml" filepath="$PROJECT_DIR$/.idea/modules/springInfocom_test.iml" group="springInfocom" />
+    </modules>
+  </component>
+</project>
