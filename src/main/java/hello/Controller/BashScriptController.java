@@ -17,15 +17,15 @@ import java.util.Calendar;
 
 @Component
 public class BashScriptController {
-    public BashScriptController() {
+
+    /*public BashScriptController() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 findAll();
             }
         }).start();
-
-    }
+    }*/
 
     @Autowired
     private BashRepository bashRepository;

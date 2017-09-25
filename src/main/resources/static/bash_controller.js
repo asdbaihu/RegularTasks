@@ -18,6 +18,12 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
     text:''
     }
 
+    self.page = {
+    pageNumber: 0,
+    size: 2,
+    totalPages: 0
+    }
+
 
     self.bashscripts = [];
 
@@ -28,6 +34,7 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
    self.useTask = useTask;
    self.changeEmailSettings = changeEmailSettings;
    self.open = open;
+   self.selectPage = selectPage;
 
    showEmailSettings();
    showAllBash();
@@ -46,7 +53,6 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
              console.log(self.bashscripts);
 
     }
-
    function useTask(taskNumber, task, content){
    console.log('Great ');
    changeApi(taskNumber, task, content);
@@ -56,11 +62,9 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
    function makeEmailChanges(settings){
    BashService.makeEmailChanges(settings);
    }
-
    function changeEmailSettings(){
    makeEmailChanges(self.settings);
    }
-
    function showEmailSettings(){
    BashService.showEmailSettings().
    then(
@@ -73,14 +77,19 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
         );
     }
 
-
+    function selectPage(page){
+    self.page.pageNumber = page;
+    showAllBash();
+    }
 
    function showAllBash(){
-    BashService.showAllBash()
+    BashService.showAllBash(self.page.pageNumber,self.page.size)
         .then(
         function(result){
-            self.bashscripts = result;
-            $scope.content = result;
+            self.bashscripts = result.content;
+            self.page.totalPages = result.totalPages;
+
+            $scope.content = result.content;
             console.log($scope.content);
             $timeout(function(){
                            $scope.$apply()

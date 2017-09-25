@@ -23,7 +23,7 @@ return factory;
                 deferred.resolve(response.data);
                 },
             function(errResponse){
-                alert('Error finding Bash-scripts');
+                alert('Error finding Email Settings');
                 deferred.reject(errResponse);
             }
             );
@@ -45,15 +45,17 @@ return factory;
         return deferred.promise;
         }
 
-    function showAllBash(){
+    function showAllBash(page, size){
     var deferred = $q.defer();
-    $http.get(REST_SERVICE_URI)
+    $http.get(REST_SERVICE_URI, {params: {page: page,
+                                          size: size}
+                                          })
         .then(
         function(response){
             deferred.resolve(response.data);
             },
         function(errResponse){
-            alert('Error finding Email Settings');
+            alert('Error finding Bash-scripts');
             deferred.reject(errResponse);
         }
         );

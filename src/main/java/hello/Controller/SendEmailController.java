@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,14 +28,14 @@ import javax.mail.internet.MimeMultipart;
 @Component
 public class SendEmailController {
 
-    public SendEmailController() {
+    /*public SendEmailController() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 findAll();
             }
         }).start();
-    }
+    }*/
 
     @Autowired
     EmailRepository emailRepository;

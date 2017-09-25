@@ -20,14 +20,14 @@ import jxl.write.Number;
 @Component
 public class GenerateExcelController {
 
-    public GenerateExcelController(){
+   /* public GenerateExcelController(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 findAll();
             }
         }).start();
-    }
+    }*/
 
     @Autowired
     GenerateExelRepository generateExelRepository;

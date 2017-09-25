@@ -201,7 +201,59 @@
             </div>
         </form>
 
-</div>
+        <form name="myFormTable">
+            <div class="panel panel-default">
+        <div class="text-center" ng-if="ctrl.page.totalPages >= 2">
+            <ul class="pagination">
+                <li ng-class="ctrl.page.pageNumber > 0 ? '' : 'disabled'">
+                    <a ng-click="ctrl.selectPage(0)" href="#1">
+                        FIRST</a></li>
+                <li ng-class="ctrl.page.pageNumber > 0 ? '' : 'disabled'" >
+                    <a ng-click="ctrl.selectPage(ctrl.page.pageNumber-1)" href="#">
+                        &lt;</a></li>
+                <li ng-class="'active'">
+                    <a ng-click="selectPage(ctrl.page.pageNumber)" href="#{{ctrl.page.pageNumber+1}}">
+                        {{ctrl.page.pageNumber+1}}</a></li>
+                <li ng-class="ctrl.page.pageNumber < ctrl.page.totalPages-1?'':'disabled'">
+                    <a ng-click="ctrl.selectPage(ctrl.page.pageNumber+1)" href="#">
+                        &gt;</a></li>
+                <li ng-class="ctrl.page.pageNumber < ctrl.page.totalPages-1?'':'disabled'">
+                    <a ng-click="ctrl.selectPage(ctrl.page.totalPages)" href="#{{ctrl.page.totalPages}}">
+                        LAST</a></li>
+            </ul>
+        </div>
+            </div>
+        </form>
+
+
+        <form name="myFormTable">
+            <div class="panel panel-default">
+                <!--<div class="panel-heading-xs pull-center"><span class="lead">Items per page </span></div>-->
+                <div class="row text-center">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <span>Items per page</span>
+                        <div class="btn-group ng-scope">
+                            <button type="button"
+                                    ng-class="{'active':ctrl.page.size==2}"
+                                    ng-click="ctrl.page.size=2"
+                                    class="btn btn-default">2
+                            </button>
+                            <button type="button"
+                                    ng-class="{'active':ctrl.page.size==3}"
+                                    ng-click="ctrl.page.size=3"
+                                    class="btn btn-default">3
+                            </button>
+                            <button type="button"
+                                    ng-class="{'active':ctrl.page.size==6}"
+                                    ng-click="ctrl.page.size=6"
+                                    class="btn btn-default">6
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 

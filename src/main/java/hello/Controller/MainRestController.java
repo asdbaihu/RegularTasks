@@ -2,6 +2,8 @@ package hello.Controller;
 
 import hello.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,7 @@ public class MainRestController {
         ForSendingEmail forSendingEmail = new ForSendingEmail();
 
         forSendingEmail.setEmail(forSendingEmailRepository.getEmail());
+        forSendingEmail.setPassword(forSendingEmailRepository.getPassword());
         forSendingEmail.setText(forSendingEmailRepository.getText());
 
         return new ResponseEntity<ForSendingEmail>(forSendingEmail, HttpStatus.OK);
@@ -49,9 +52,13 @@ public class MainRestController {
 
 
     // load all bashes
-    @RequestMapping(value = "/bashes/", method = RequestMethod.GET)
-    public Iterable<Bashscript> showAllBash() {
-        return bashRepository.findAll();
+    @RequestMapping(value = "/bashes",
+            params = {"page", "size"},
+            method = RequestMethod.GET)
+    public Page<Bashscript> showAllBash(
+            @RequestParam("page") int page, @RequestParam("size") int size
+    ) {
+        return bashRepository.findAll(new PageRequest(page,size));
     }
 
 // find exact bash
