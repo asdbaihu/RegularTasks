@@ -35,6 +35,7 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
    self.changeEmailSettings = changeEmailSettings;
    self.open = open;
    self.selectPage = selectPage;
+   self.selectNumberPerPage = selectNumberPerPage;
 
    showEmailSettings();
    showAllBash();
@@ -79,6 +80,12 @@ angular.module('infocomApp').controller('BashController', ['$scope', '$timeout',
 
     function selectPage(page){
     self.page.pageNumber = page;
+    showAllBash();
+    }
+
+    function selectNumberPerPage(numberPerPage){
+    self.page.size = numberPerPage;
+    self.page.pageNumber =0;
     showAllBash();
     }
 

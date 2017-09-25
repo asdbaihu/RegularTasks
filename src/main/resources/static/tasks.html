@@ -213,12 +213,12 @@
                         &lt;</a></li>
                 <li ng-class="'active'">
                     <a ng-click="selectPage(ctrl.page.pageNumber)" href="#{{ctrl.page.pageNumber+1}}">
-                        {{ctrl.page.pageNumber+1}}</a></li>
+                        {{ctrl.page.pageNumber+1}}/{{ctrl.page.totalPages}}</a></li>
                 <li ng-class="ctrl.page.pageNumber < ctrl.page.totalPages-1?'':'disabled'">
                     <a ng-click="ctrl.selectPage(ctrl.page.pageNumber+1)" href="#">
                         &gt;</a></li>
                 <li ng-class="ctrl.page.pageNumber < ctrl.page.totalPages-1?'':'disabled'">
-                    <a ng-click="ctrl.selectPage(ctrl.page.totalPages)" href="#{{ctrl.page.totalPages}}">
+                    <a ng-click="ctrl.selectPage(ctrl.page.totalPages-1)" href="#{{ctrl.page.totalPages}}">
                         LAST</a></li>
             </ul>
         </div>
@@ -235,17 +235,17 @@
                         <div class="btn-group ng-scope">
                             <button type="button"
                                     ng-class="{'active':ctrl.page.size==2}"
-                                    ng-click="ctrl.page.size=2"
+                                    ng-click="ctrl.selectNumberPerPage(2)"
                                     class="btn btn-default">2
                             </button>
                             <button type="button"
                                     ng-class="{'active':ctrl.page.size==3}"
-                                    ng-click="ctrl.page.size=3"
+                                    ng-click="ctrl.selectNumberPerPage(3)"
                                     class="btn btn-default">3
                             </button>
                             <button type="button"
                                     ng-class="{'active':ctrl.page.size==6}"
-                                    ng-click="ctrl.page.size=6"
+                                    ng-click="ctrl.selectNumberPerPage(6)"
                                     class="btn btn-default">6
                             </button>
                         </div>

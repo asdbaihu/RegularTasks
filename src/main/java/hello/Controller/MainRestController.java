@@ -110,9 +110,13 @@ public class MainRestController {
 ///////////////
     // Exel task
     // load all exel file wich should be generated
-    @RequestMapping(value = "/exel/", method = RequestMethod.GET)
-    public Iterable<Generateexel> showAllExelFiles() {
-        return generateExelRepository.findAll();
+    @RequestMapping(value = "/exel",
+            params = {"page", "size"},
+            method = RequestMethod.GET)
+    public Page<Generateexel> showAllExelFiles(
+            @RequestParam("page") int page, @RequestParam("size") int size
+    ) {
+        return generateExelRepository.findAll(new PageRequest(page,size));
     }
 
     // save new exel file
@@ -170,9 +174,13 @@ public class MainRestController {
     ///////////////
     // Email task
     // load list of emails wich should be generated
-    @RequestMapping(value = "/email/", method = RequestMethod.GET)
-    public Iterable<Sendemail> showAllEmails() {
-        return emailRepository.findAll();
+   @RequestMapping(value = "/email",
+            params = {"page", "size"},
+            method = RequestMethod.GET)
+    public Page<Sendemail> showAllEmails(
+            @RequestParam("page") int page, @RequestParam("size") int size
+    ) {
+        return emailRepository.findAll(new PageRequest(page,size));
     }
 
 
